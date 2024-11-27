@@ -1,53 +1,95 @@
-// huh
-
 const ravelWorks = [
-    { title: "Boléro", url: "audio_files/bolero.mp3" },
-    { title: "Daphnis et Chloé Suite No. 1", url: "audio_files/daphnis-et-chloe-suite-1.mp3" },
-    { title: "Daphnis et Chloé Suite No. 2", url: "audio_files/daphnis-et-chloe-suite-2.mp3" },
-    // { title: "Gaspard de la nuit", url: "audio_files/gaspard-de-la-nuit.mp3" },
-    { title: "Left Hand Piano Concerto", url: "audio_files/left-hand-piano-concerto.mp3" },
-    { title: "Ma mère l'Oye (Mother Goose) (orchestra)", url: "audio_files/ma-mer-lOye-mother-goose-orchestra.mp3" },
-    { title: "Pavane pour une infante défunte (orchestra)", url: "audio_files/pavane-orchestra.mp3" },
-    { title: "Pavane pour une infante défunte (piano)", url: "audio_files/pavane-pour-une-infante-defunte.mp3" },
-    { title: "Piano Concerto in G major", url: "audio_files/piano-concerto-in-g-major.mp3" },
-    { title: "Rapsodie espagnole", url: "audio_files/rapsodie-espagnole.mp3" },
-    { title: "Sonatine", url: "audio_files/sonatine.mp3" },
-    // { title: "String Quartet in F major", url: "audio_files/string-quartet-in-f-major.mp3" },
-    { title: "Tzigane", url: "audio_files/tzigane.mp3" },
-    { title: "Une barque sur l'océan (orchestral arrangement)", url: "audio_files/Une-barque-sur-locean-orchestral-arrangement.mp3" },
-    { title: "Valses nobles et sentimentales", url: "audio_files/valses-nobles-et-sentimentales.mp3" },
-    // Add more works here
+    { title: "Boléro", videoId: "cmNEvSFWftc", startTime: 0, endTime: 870 },
+    { title: "Daphnis et Chloé", videoId: "O4lzPz3NnI0", startTime: 12, endTime: 3290 },
+    { title: "Gaspard de la nuit", videoId: "TQSyRXRuk6Y", startTime: 17, endTime: 1250 },
+    { title: "La Valse", videoId: "ghY2ak8YoBM", startTime: 1, endTime: 671 },
+    { title: "Left Hand Piano Concerto", videoId: "dYURhyb5mCs", startTime: 36, endTime: 1110 },
+    { title: "Ma Mère l'Oye (Mother Goose) (Orchestral)", videoId: "N_ENSdLOblk", startTime: 44, endTime: 1090 },
+    { title: "Pavane pour une infante défunte (Orchestral)", videoId: "DVtNt-6OTM8", startTime: 20, endTime: 480 },
+    { title: "Pavane pour une infante défunte (Piano)", videoId: "7ASYm3K_PwM", startTime: 5, endTime: 375 },
+    { title: "Piano Concerto in G", videoId: "gAtzmCGMNfI", startTime: 2, endTime: 1230 },
+    { title: "Rapsodie Espagnole", videoId: "gyTZIt1HlM0", startTime: 9, endTime: 1080 },
+    { title: "Sonatine", videoId: "uFLsJrQ-III", startTime: 4, endTime: 690 },
+    { title: "String Quartet in F", videoId: "plATXmJAWe8", startTime: 4, endTime: 1825 },
+    { title: "Tzigane", videoId: "t4tkjHFf2QE", startTime: 1, endTime: 570 },
+    { title: "Valses nobles et sentimentales", videoId: "9cfIKdKVwb8", startTime: 7, endTime: 900 },
 ];
 
 let currentWork = null; // To store the currently playing work
 let isGameRunning = false; // To track if the game is ongoing
-let currentAudio = null; // To store the currently playing audio element
 let score = 0; // Initialize the score counter
 let timerInterval = null; // To store the timer interval
-let timeRemaining = 60; // Start with 2 minutes (120 seconds)
+let timeRemaining = 60; // Start with 1 minute for the game
+let audioPlayer; // YouTube Player reference
+
+function onYouTubeIframeAPIReady() {
+    audioPlayer = new YT.Player('youtube-audio', {
+        height: '0', // Hide the player
+        width: '0',
+        videoId: '', // No video loaded initially
+        playerVars: {
+            autoplay: 1, // Automatically play the video
+            controls: 0, // Hide controls
+            showinfo: 0, // Hide video info
+        },
+        events: {
+            onReady: () => console.log("YouTube Player Ready"),
+        },
+    });
+}
+
+
+// function onYouTubeIframeAPIReady() {
+//     audioPlayer = new YT.Player('youtube-player', {
+//         height: '315',
+//         width: '560',
+//         videoId: '', // No video loaded initially
+//         playerVars: {
+//             autoplay: 1, // Automatically play the video
+//             controls: 1, // Show player controls
+//             modestbranding: 1, // Minimal YouTube branding
+//             rel: 0, // Disable related videos at the end
+//             showinfo: 0, // Hide video info
+//         },
+//         events: {
+//             onReady: () => console.log("YouTube Player Ready"),
+//             onError: (event) => console.error("YouTube Player Error:", event.data),
+//         },
+//     });
+// }
+
 
 function playRandom() {
     currentWork = ravelWorks[Math.floor(Math.random() * ravelWorks.length)];
     const outputDiv = document.getElementById("output");
-    const feedbackDiv = document.getElementById("feedback");
-    feedbackDiv.innerHTML = ""; // Clear previous feedback
-
-    const audio = document.createElement("audio");
-    audio.src = currentWork.url;
-    audio.autoplay = true;
-
-    audio.addEventListener("loadedmetadata", () => {
-        const maxStart = Math.floor(audio.duration) - 10;
-        const randomStart = Math.max(0, Math.floor(Math.random() * maxStart));
-        audio.currentTime = randomStart;
-    });
-
-    if (currentAudio) currentAudio.pause(); // Stop any currently playing audio
-    currentAudio = audio;
-
     outputDiv.innerHTML = `<h2>Now Playing...</h2>`;
-    outputDiv.appendChild(audio);
+    
+    if (audioPlayer) {
+        let start = currentWork.startTime;
+        let end = currentWork.endTime;
+        let startSeconds = Math.floor(Math.random() * (end - start) + start);
+        console.log("currentWork", currentWork);
+        console.log("startSeconds", startSeconds);
+        audioPlayer.loadVideoById({
+            videoId: currentWork.videoId,
+            startSeconds: startSeconds
+        });
+    }
 }
+
+// function playRandom() {
+//     currentWork = ravelWorks[Math.floor(Math.random() * ravelWorks.length)];
+//     const outputDiv = document.getElementById("output");
+//     outputDiv.innerHTML = `<h2>Now Playing: ${currentWork.title}</h2>`;
+
+//     if (audioPlayer) {
+//         audioPlayer.loadVideoById({
+//             videoId: currentWork.videoId,
+//             startSeconds: Math.floor(Math.random() * audioPlayer.getDuration()), // Start at a random time
+//         });
+//     }
+// }
+
 
 function stopGame() {
     const startPauseButton = document.getElementById("startPauseButton");
@@ -57,33 +99,45 @@ function stopGame() {
     isGameRunning = false; // Update game status
     startPauseButton.textContent = "Start"; // Update button text
     clearInterval(timerInterval); // Stop the timer
-    timeRemaining = 120; // Reset the timer
+    timeRemaining = 60; // Reset the timer
     updateTimer(); // Update the displayed timer
     outputDiv.innerHTML = ""; // Clear the playing message
     feedbackDiv.innerHTML = ""; // Clear feedback
 
-    if (currentAudio) currentAudio.pause(); // Stop any audio playback
-    currentAudio = null; // Clear the current audio reference
+    if (audioPlayer) {
+        audioPlayer.stopVideo(); // Stop the YouTube video
+    }
     currentWork = null; // Clear the current work
     score = 0; // Reset score when the game stops
     updateScore(); // Update the displayed score
 }
 
-
-
 function toggleGame() {
     const startPauseButton = document.getElementById("startPauseButton");
+
     if (isGameRunning) {
         // Pause the game
         isGameRunning = false;
         startPauseButton.textContent = "Start";
-        if (currentAudio) currentAudio.pause();
+
+        if (audioPlayer) {
+            audioPlayer.pauseVideo(); // Pause YouTube audio
+        }
+
         clearInterval(timerInterval); // Pause the timer
     } else {
         // Start the game
         isGameRunning = true;
         startPauseButton.textContent = "Pause";
-        playRandom(); // Start playing
+
+        if (audioPlayer && currentWork) {
+            const currentTime = audioPlayer.getCurrentTime(); // Get current playback position
+            audioPlayer.seekTo(currentTime, true); // Resume playback at the same position
+            audioPlayer.playVideo(); // Resume video
+        } else {
+            playRandom(); // Start a new random video if none is currently playing
+        }
+
         startTimer(); // Start the timer
     }
 }
@@ -99,15 +153,15 @@ function startTimer() {
             clearInterval(timerInterval); // Stop the timer when time runs out
             const timerSpan = document.getElementById("timer");
             timerSpan.textContent = "Time's up!"; // Change the timer to "Time's up!"
-            if (currentAudio) currentAudio.pause(); // Stop audio playback
+            if (audioPlayer) {
+                audioPlayer.stopVideo(); // Stop YouTube playback
+            }
             isGameRunning = false; // Stop the game
             const startPauseButton = document.getElementById("startPauseButton");
             startPauseButton.style.display = "none"; // Hide the button
         }
     }, 1000);
 }
-
-
 
 function updateTimer() {
     const timerSpan = document.getElementById("timer");
@@ -193,20 +247,16 @@ function skipGame() {
 
         // Pause for 1 second before skipping to the next piece
         setTimeout(() => {
-            const startPauseButton = document.getElementById("startPauseButton");
-            startPauseButton.click(); // Pause the game
-            startPauseButton.click(); // Restart the game
+            playRandom(); // Play the next piece
             feedbackDiv.textContent = ""; // Clear the feedback
         }, 1000);
     }
 }
 
-
 function updateScore() {
     const scoreSpan = document.getElementById("score");
     scoreSpan.textContent = score; // Update the score display
 }
-
 
 function restartGame() {
     location.reload(); // Reload the current page
