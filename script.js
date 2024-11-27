@@ -5,7 +5,7 @@ const ravelWorks = [
     { title: "La Valse", videoId: "ghY2ak8YoBM", startTime: 1, endTime: 671 },
     { title: "Left Hand Piano Concerto", videoId: "dYURhyb5mCs", startTime: 36, endTime: 1110 },
     { title: "Ma Mère l'Oye (Mother Goose) (Orchestral)", videoId: "N_ENSdLOblk", startTime: 44, endTime: 1090 },
-    { title: "Pavane pour une infante défunte (Orchestral)", videoId: "DVtNt-6OTM8", startTime: 20, endTime: 480 },
+    { title: "Pavane pour une infante défunte (Orchestral)", videoId: "DVtNt-6OTM8", startTime: 20, endTime: 420 },
     { title: "Pavane pour une infante défunte (Piano)", videoId: "7ASYm3K_PwM", startTime: 5, endTime: 375 },
     { title: "Piano Concerto in G", videoId: "gAtzmCGMNfI", startTime: 2, endTime: 1230 },
     { title: "Rapsodie Espagnole", videoId: "gyTZIt1HlM0", startTime: 9, endTime: 1080 },
