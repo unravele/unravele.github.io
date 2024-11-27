@@ -45,7 +45,7 @@ function onYouTubeIframeAPIReady() {
 
 // Function to check player readiness and reinitialize if necessary
 function checkPlayerReady() {
-    if (!playerReady) {
+    if (!player_ready) {
         console.log("Player not ready. Reinitializing...");
         onYouTubeIframeAPIReady(); // Reinitialize the player
     }
