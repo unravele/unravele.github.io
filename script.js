@@ -21,6 +21,7 @@ let score = 0; // Initialize the score counter
 let timerInterval = null; // To store the timer interval
 let timeRemaining = 60; // Start with 1 minute for the game
 let audioPlayer; // YouTube Player reference
+let player_ready = false;
 
 function onYouTubeIframeAPIReady() {
     audioPlayer = new YT.Player('youtube-audio', {
@@ -33,7 +34,11 @@ function onYouTubeIframeAPIReady() {
             showinfo: 0, // Hide video info
         },
         events: {
-            onReady: () => console.log("YouTube Player Ready"),
+            onReady: () => {
+                console.log("YouTube Player Ready");
+                player_ready = true;
+            },
+            onError: (event) => console.error("YouTube Player Error:", event.data),
         },
     });
 }
@@ -126,6 +131,11 @@ function toggleGame() {
 
         clearInterval(timerInterval); // Pause the timer
     } else {
+        // if player is not ready, don't do anything
+        if (!player_ready) {
+            console.log("player not ready");
+            return;
+        }
         // Start the game
         isGameRunning = true;
         startPauseButton.textContent = "Pause";
