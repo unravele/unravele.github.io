@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ravele</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+</head>
+
+    
+<body>
+    <!-- Left and Right Images -->
+    <img src="ravel_left.png" alt="Ravel Left" id="ravel-left">
+    <img src="ravel_right.png" alt="Ravel Right" id="ravel-right">
+    
+    <h1>Ravele</h1>
+    <div>
+        <h2>Time Remaining: <span id="timer">1:00</span></h2>
+    </div>
+    <div>
+        <h2>Score: <span id="score">0</span></h2>
+    </div>
+    
+    <div id="button-container">
+        <button id="startPauseButton" onclick="toggleGame()">Start</button>
+        <button id="skipButton" onclick="skipGame()">Skip</button>
+        <button id="restartButton" onclick="restartGame()">Restart</button>
+    </div>
+    
+
+    <div id="output"></div>
+    <div id="input-container">
+        <input 
+            type="text" 
+            id="guess" 
+            placeholder="Enter piece name" 
+            oninput="updateSuggestions()" 
+            onkeydown="handleKeyDown(event)"
+        >
+        <ul id="suggestions"></ul>
+    </div>
+    <div id="feedback"></div>
+
+    <!-- Link to the external JavaScript file -->
+    <script src="script.js" defer></script>
+</body>
+</html>

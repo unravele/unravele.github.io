@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ravele</title>
+    <style>
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            margin: 10px;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 10%;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            margin: 10px;
+        }
+        input {
+            padding: 10px;
+            font-size: 16px;
+            width: 50%;
+        }
+        #suggestions {
+            list-style: none;
+            padding: 0;
+            width: 50%;
+            margin: 0 auto;
+            text-align: left;
+            border: 1px solid #ccc;
+            max-height: 150px;
+            overflow-y: auto;
+            background: #fff;
+        }
+        #suggestions li {
+            padding: 8px;
+            cursor: pointer;
+        }
+        #suggestions li:hover {
+            background-color: #f0f0f0;
+        }
+        #output, #feedback {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Ravele</h1>
+    <div>
+        <h2>Time Remaining: <span id="timer">2:00</span></h2>
+    </div>
+    <div>
+        <h2>Score: <span id="score">0</span></h2>
+    </div>
+    
+    <button id="startPauseButton" onclick="toggleGame()">Start</button>
+    <button id="skipButton" onclick="skipGame()">Skip</button>
+    <button id="restartButton" onclick="restartGame()">Restart</button>
+
+    <div id="output"></div>
+    <div>
+        <input 
+            type="text" 
+            id="guess" 
+            placeholder="Enter piece name" 
+            oninput="updateSuggestions()" 
+            onkeydown="handleKeyDown(event)"
+        >
+        <ul id="suggestions"></ul>
+    </div>
+    <div id="feedback"></div>
+
+    <!-- Link to the external JavaScript file -->
+    <script src="script.js" defer></script>
+</body>
+</html>
