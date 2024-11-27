@@ -51,8 +51,8 @@ function checkPlayerReady() {
     }
 }
 
-// Start checking every 3 seconds
-setInterval(checkPlayerReady, 3000);
+// Start checking every half second
+setInterval(checkPlayerReady, 500);
 
 
 // function onYouTubeIframeAPIReady() {
