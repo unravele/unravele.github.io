@@ -188,3 +188,15 @@ input:focus {
     align-items: center; /* Vertical alignment */
     justify-content: center; /* Horizontal alignment */
 }
+
+/* Footer Styling */
+#footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+    font-size: 0.9rem;
+    color: #fff;
+    padding: 10px 0;
+    z-index: 2; /* Ensure it appears above background elements */
+}
