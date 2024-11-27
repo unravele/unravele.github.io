@@ -8,9 +8,9 @@ const ravelWorks = [
     { title: "Pavane pour une infante défunte (Orchestral)", videoId: "DVtNt-6OTM8", startTime: 20, endTime: 420 },
     { title: "Pavane pour une infante défunte (Piano)", videoId: "7ASYm3K_PwM", startTime: 5, endTime: 375 },
     { title: "Piano Concerto in G", videoId: "gAtzmCGMNfI", startTime: 2, endTime: 1230 },
-    { title: "Rapsodie Espagnole", videoId: "gyTZIt1HlM0", startTime: 9, endTime: 1080 },
+    { title: "Rapsodie Espagnole", videoId: "KDUNEJTGmVU", startTime: 37, endTime: 950 },
     { title: "Sonatine", videoId: "uFLsJrQ-III", startTime: 4, endTime: 690 },
-    // { title: "String Quartet in F", videoId: "plATXmJAWe8", startTime: 4, endTime: 1825 },
+    { title: "String Quartet in F", videoId: "O4a-BNQgqqE", startTime: 7, endTime: 1780 },
     { title: "Tzigane", videoId: "t4tkjHFf2QE", startTime: 1, endTime: 570 },
     { title: "Valses nobles et sentimentales", videoId: "9cfIKdKVwb8", startTime: 7, endTime: 900 },
 ];
@@ -153,15 +153,24 @@ function startTimer() {
             clearInterval(timerInterval); // Stop the timer when time runs out
             const timerSpan = document.getElementById("timer");
             timerSpan.textContent = "Time's up!"; // Change the timer to "Time's up!"
+
             if (audioPlayer) {
                 audioPlayer.stopVideo(); // Stop YouTube playback
             }
+
             isGameRunning = false; // Stop the game
             const startPauseButton = document.getElementById("startPauseButton");
             startPauseButton.style.display = "none"; // Hide the button
+
+            // Show the correct answer if feedback is empty
+            const feedbackDiv = document.getElementById("feedback");
+            if (!feedbackDiv.textContent.trim()) {
+                feedbackDiv.innerHTML = `<p style="color: #ff6f00;">The correct answer was: ${currentWork.title}</p>`;
+            }
         }
     }, 1000);
 }
+
 
 function updateTimer() {
     const timerSpan = document.getElementById("timer");
