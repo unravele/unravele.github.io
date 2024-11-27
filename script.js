@@ -134,7 +134,7 @@ function toggleGame() {
         // if player is not ready, don't do anything
         if (!player_ready) {
             console.log("player not ready");
-            onYouTubeIframeAPIReady();
+            // onYouTubeIframeAPIReady();
             return;
         }
         // Start the game
