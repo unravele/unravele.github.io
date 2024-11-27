@@ -43,6 +43,17 @@ function onYouTubeIframeAPIReady() {
     });
 }
 
+// Function to check player readiness and reinitialize if necessary
+function checkPlayerReady() {
+    if (!playerReady) {
+        console.log("Player not ready. Reinitializing...");
+        onYouTubeIframeAPIReady(); // Reinitialize the player
+    }
+}
+
+// Start checking every 3 seconds
+setInterval(checkPlayerReady, 3000);
+
 
 // function onYouTubeIframeAPIReady() {
 //     audioPlayer = new YT.Player('youtube-player', {
