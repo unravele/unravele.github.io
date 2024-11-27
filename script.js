@@ -189,6 +189,11 @@ function startTimer() {
             if (!feedbackDiv.textContent.trim()) {
                 feedbackDiv.innerHTML = `<p style="color: #ff6f00;">The correct answer was: ${currentWork.title}</p>`;
             }
+
+            // if the feedback was "Incorrect. Try again!", show the correct answer
+            if (feedbackDiv.textContent.trim() === "Incorrect. Try again!") {
+                feedbackDiv.innerHTML = `<p style="color: #ff6f00;">The correct answer was: ${currentWork.title}</p>`;
+            }
         }
     }, 1000);
 }
