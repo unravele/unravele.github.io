@@ -278,5 +278,10 @@ function updateScore() {
 }
 
 function restartGame() {
+    // try to reload the YouTube player if player is not ready
+    if (!player_ready) {
+        console.log("attempting to reload player");
+        onYouTubeIframeAPIReady();
+    }
     location.reload(); // Reload the current page
 }
