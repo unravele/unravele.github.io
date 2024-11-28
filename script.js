@@ -209,6 +209,11 @@ function updateTimer() {
 }
 
 function checkGuess() {
+    // if game is not running, don't do anything
+    if (!isGameRunning) {
+        return;
+    }
+
     const guessInput = document.getElementById("guess").value.trim();
     const feedbackDiv = document.getElementById("feedback");
 
